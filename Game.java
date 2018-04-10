@@ -1,4 +1,6 @@
 import java.util.Scanner;
+
+// HELLO EVERYBODY
 public class Game {
 public static void main (String [] arg) {
 	runGame();
