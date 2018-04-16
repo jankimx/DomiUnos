@@ -12,3 +12,7 @@ Rules:
 9. The round ends when either no more moves left to make (all tiles used) or one of the players does not have any tiles left in his/her pile.
 10. Game ends when one player gets 100 points.
 11. Whoever gets 100 points first loses.
+
+
+
+YOU WOULD PLAY THE GAME BY RUNNING GAME.JAVA.
