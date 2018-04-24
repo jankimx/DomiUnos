@@ -6,10 +6,9 @@ boolean specialdom;
 
 //SWING JAVA GRAPHICS-----------------------
 
-public  Dominoes(Tile topside, Tile botside, boolean specialdom){
+public  Dominoes(Tile topside, Tile botside){
 	this.topside = topside;
 	this.botside = botside;
-	this.specialdom = specialdom;
 }
 
 public String toString() {
