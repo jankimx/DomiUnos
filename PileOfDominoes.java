@@ -48,7 +48,12 @@ public void createPile() {
         int size = dominoes.size();
         for (int i = 0; i < size; i++) {
              int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
-              
+              for(int n = 0; n < 4; n++) {
+            	  Dominoes temp = tempPile.get(n);
+            	  temp.makeSpecial();
+            	  tempPile.set(n, temp);
+              	}
+              }
              tempPile.add(this.dominoes.remove(randomindex));
         }
          
