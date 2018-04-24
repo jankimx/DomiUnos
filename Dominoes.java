@@ -2,12 +2,14 @@ import java.awt.Graphics;
 public class Dominoes {
 Tile topside;
 Tile botside;
+boolean specialdom;
 
 //SWING JAVA GRAPHICS-----------------------
 
-public  Dominoes(Tile topside, Tile botside){
+public  Dominoes(Tile topside, Tile botside, boolean specialdom){
 	this.topside = topside;
 	this.botside = botside;
+	this.specialdom = specialdom;
 }
 
 public String toString() {
@@ -27,7 +29,14 @@ public boolean compare (Dominoes toCompare) {
 			|| toCompare.botside == this.topside || toCompare.topside == this.topside) {
 		return true;
 	}
-	else {return false;}
-	
+	else {
+		return false;
+	}
 }
+public void makeSpecial() {
+	this.specialdom = true;
+}
+public boolean isSpecial() {
+	return this.specialdom;
+	}
 }
