@@ -1,125 +1,122 @@
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.Dimension;
 import java.awt.Font;
- 
+
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
- 
+
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
- 
+import javax.swing.JScrollBar;
+
 public class drawing extends JPanel implements ActionListener{
     public static final int WIDTH = 1440;
     public static final int HEIGHT = 900;
     int numofDom = 0;
+    boolean toHide = false;
     String last = "lol";
     Color gold = new Color(218,165,32);
-    Game game = new Game ();
-    Image img = Toolkit.getDefaultToolkit().createImage("background.jpg");
+    static Game game = new Game ();
     private JFrame frame;
- 
-    public drawing(){
- 
-        //setLayout(null);
-         
-        JButton button1 = new JButton("remove1");
-        button1.addActionListener(this); 
-        button1.setBounds(100, 11, 200, 60);
-        add(button1);
-         
-        JButton button2 = new JButton("remove2");
-        button2.addActionListener(this); 
-        button2.setBounds(267, 11, 200, 60);
-        add(button2);
-         
-        JButton button3 = new JButton("remove3");
-        button3.addActionListener(this); 
-        button3.setBounds(432, 11, 200, 60);
-        add(button3);
-         
-        JButton button4 = new JButton("remove4");
-        button4.addActionListener(this);
-        button4.setBounds(609, 11, 200, 60);
-        add(button4);
-         
-        JButton button5 = new JButton("remove5");
-        button5.addActionListener(this);
-        button5.setBounds(779, 11, 200, 60);
-        add(button5);
-         
-        JButton button6 = new JButton("remove6");
-        button6.addActionListener(this);
-        button6.setBounds(953, 11, 200, 60);
-        add(button6);
-        
-        JButton button7 = new JButton("remove7");
-        button7.addActionListener(this);
-        button7.setBounds(1127, 11, 200, 60);
-        add(button7);
-         
-    }           
-    public void actionPerformed(ActionEvent e) {
-        String actionCommand = e.getActionCommand();
-        if(actionCommand.equals("remove1")) {
-        	last = game.table.addOnTable(game.point.getDomino(0));
-            if (last != "nothing") {
-                game.point.remove(0);
+    Image background = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background1.jpg");
+    Image waiting = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif");
+//-----------------------------------------------------------------KEY BINDINGS----------------------------------------------------------------    
+    public class InputKeyEvents extends KeyAdapter{
+
+    	public void keyPressed(KeyEvent e) {
+            int c=e.getKeyCode();
+
+    	//First player move
+    	if (!toHide) {
+    		if(c == 49) {
+    			last = game.table.addOnTable(game.userOneHand.getDomino(0));
+                if (last != "nothing") {
+                    game.userOneHand.remove(0);
+                }
             }
-        }
-        else if(actionCommand.equals("remove2")) {
-        	last = game.table.addOnTable(game.point.getDomino(1));
+    		else if(c == 50) {
+    			last = game.table.addOnTable(game.userOneHand.getDomino(1));
+                if (last != "nothing") {
+                    game.userOneHand.remove(1);
+                }
+        		}
+    			else if(c == 51) {
+            			 Game.table.addOnTable( Game.userOneHand.remove(2));
+            		}
+    				else if(c == 52) {
+                			 Game.table.addOnTable( Game.userOneHand.remove(3));	
+                		}
+    					else if(c == 53) {
+                				 Game.table.addOnTable( Game.userOneHand.remove(4));
+                		}
+    						else if(c == 54) {
+                					 Game.table.addOnTable( Game.userOneHand.remove(5));
+                    		} 
+    							else if(c == 55) {
+                					 Game.table.addOnTable( Game.userOneHand.remove(6));
+                				}
+    		toHide=true;
+    	}		//Second player move
+    	else {
+    		if(c == 49) {
+    			last = game.table.addOnTable(game.userTwoHand.getDomino(0));
+                if (last != "nothing") {
+                    game.userTwoHand.remove(0);
+                }
+           }
+   		else if(c == 50) {
+   			last = game.table.addOnTable(game.userTwoHand.getDomino(1));
             if (last != "nothing") {
-                game.point.remove(1);
+                game.userTwoHand.remove(1);
             }
-        }
-        else if(actionCommand.equals("remove3")) {
-        	last = game.table.addOnTable(game.point.getDomino(2));
-            if (last != "nothing") {
-                game.point.remove(2);
-            }
-        }
-        else if(actionCommand.equals("remove4")) {
-        	last = game.table.addOnTable(game.point.getDomino(3));
-            if (last != "nothing") {
-                game.point.remove(3);
-            }
-        }
-        else if(actionCommand.equals("remove5")) {
-        	last = game.table.addOnTable(game.point.getDomino(4));
-        	if (last != "nothing") {
-                game.point.remove(4);
-        	}
-        }
-        else if(actionCommand.equals("remove6")) {
-        	last = game.table.addOnTable(game.point.getDomino(5));
-            if (last != "nothing") {
-                game.point.remove(5);
-            }
-        }
-        else if(actionCommand.equals("remove7")) {
-        	last = game.table.addOnTable(game.point.getDomino(6));
-            if (last != "nothing") {
-                game.point.remove(6);
-            }
-        }
-         
-        repaint();  
+       		}
+   			else if(c == 51) {
+           			 Game.table.addOnTable( Game.userTwoHand.remove(2));
+           		}
+   				else if(c == 52) {
+               			 Game.table.addOnTable( Game.userTwoHand.remove(3));	
+               		}
+   					else if(c == 53) {
+               				 Game.table.addOnTable( Game.userTwoHand.remove(4));
+               		}
+   						else if(c == 54) {
+               					 Game.table.addOnTable( Game.userTwoHand.remove(5));
+                   		} 
+   							else if(c == 55) {
+               					 Game.table.addOnTable( Game.userTwoHand.remove(6));
+               				}
+    		toHide=false;
+    	}		
     }
+       
+   }
+//-----------------------------------------------------------------CONSTRUCTOR-----------------------------------------------------------------     
+    public drawing() {
+    	addKeyListener(new InputKeyEvents());
+    	setFocusable(true);
+    	setLayout(null);
+    	
+    	
+    }
+//---------------------------------------------------------------DRAWING OF DOMINOES------------------------------------------------------------ 
     public void drawDom (Graphics g, int x, int y) {
         Graphics2D g2 = (Graphics2D) g;
         //DRAWING WHITE TAB
@@ -881,183 +878,215 @@ public void drawdot(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                 	   }
                    }
            }
-           }
-         
- /*   public void drawDotshorizon (Graphics g, Dominoes [] domino, int p, int k) {
-         
-         int y = k;
-           int x = p;
-           //constants
-           int conX = k;
-           int conY = p;
-           Graphics2D g2 = (Graphics2D) g;
-            
-           int j = 0;
-           int count = 0;
-        
-        for(Dominoes current : domino) {
-            if(count%7 == 0 && count !=0)  j+=225;
-            if(current == null) continue;
-            //if(count == 0) { drawtable(g, domino, p, k); count ++; continue;}
-              //drawDomHorizon(g, k, p+j);
-            switch(current.topside) {
-                case ZERO : { break;}
-                case ONE: {
-                g2.setColor(Color.BLACK);
-                g2.fillOval((x+40), (y+45), 18, 18);
-                break;
-                }
-                case TWO: {
-                g2.setColor(Color.BLACK);
-                  g2.fillOval((x+18), (y+72), 18, 18);
-                g2.setColor(Color.BLACK);
-                g2.fillOval((x+65), (y+17), 18, 18);
-                break;
-                }
-                case THREE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+40), (y+45), 18, 18);    
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+17), 18, 18);
-                    break;
-                        }
-                case FOUR: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-                case FIVE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+42), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-                case SIX: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-            }
-            conY+= 100;
-            switch (current.botside) {
-                case ZERO : {break;}
-                case ONE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+40+conX), (y+45+conY), 18, 18);
-                    break;
-                    }
-                    case TWO: {
-                    g2.setColor(Color.BLACK);
-                      g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
-                    break;
-                    }
-                    case THREE: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+40+conX), (y+45+conY), 18, 18);  
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
-                        break;
-                            }
-                    case FOUR: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
-                        break;
-                    }
-                    case FIVE: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+42), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65), (y+72+conY), 18, 18);
-                        break;
-                    }
-                    case SIX: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
-                        break;
-                    }     
-             
-           }
-            x+= 140;
-            conY-=100;
-            count++;
-         }
-    }
-   */
-    public void paint(Graphics g) {
- 
-    g.setColor(Color.RED);
-      g.fillRect(0, 0, WIDTH, HEIGHT); 
-       
-      drawdot(g, game.point.dominoes, 300, 50);
-      drawtable(g, game.table.dominoes, 50, 400);
-    }
-public void background () {
-    JLabel label = new JLabel("");
-    label.setBackground(new Color(0, 102, 51));
-    label.setIcon(new ImageIcon("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background.jpg"));
-    label.setBounds(-10, -124, 977, 692);
-    frame.getContentPane().add(label);
- 
 }
- 
-  public void run() {
-      Game.runGame();
-      JFrame frame = new JFrame();
-      frame.getContentPane().add(new drawing());
-      frame.setBounds(250, 100, WIDTH, HEIGHT);
-      frame.setVisible(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void drawDotshorizon (Graphics g, Dominoes [] domino, int p, int k) {
+    	
+    	 int y = k;
+    	   int x = p;
+    	   //constants
+    	   int conX = k;
+    	   int conY = p;
+    	   Graphics2D g2 = (Graphics2D) g;
+    	   
+    	   int j = 0;
+    	   int count = 0;
+	   
+    	for(Dominoes current : domino) {
+    		if(count%7 == 0 && count !=0)  j+=225;
+    		if(current == null) continue;
+    		//if(count == 0) { drawtable(g, domino, p, k); count ++; continue;}
+    		  //drawDomHorizon(g, k, p+j);
+    	    switch(current.topside) {
+    	    	case ZERO : { break;}
+    	    	case ONE: {
+    	    	g2.setColor(Color.BLACK);
+    	    	g2.fillOval((x+40), (y+45), 18, 18);
+    	    	break;
+    	    	}
+    	    	case TWO: {
+    	    	g2.setColor(Color.BLACK);
+    	    	  g2.fillOval((x+18), (y+72), 18, 18);
+    	        g2.setColor(Color.BLACK);
+    	    	g2.fillOval((x+65), (y+17), 18, 18);
+    	    	break;
+    	    	}
+    	    	case THREE: {
+    				g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+40), (y+45), 18, 18);	
+    		    	g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+72), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+17), 18, 18);
+    		    	break;
+    			    	}
+    	    	case FOUR: {
+    				g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+72), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+18), 18, 18);
+    		    	g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+18), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+72), 18, 18);
+    		    	break;
+    			}
+    	    	case FIVE: {
+    				g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+42), (y+45), 18, 18);
+    				g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+72), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+18), 18, 18);
+    		    	g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+18), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+72), 18, 18);
+    		    	break;
+    			}
+    	    	case SIX: {
+    				g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+45), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+45), 18, 18);
+    				g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+72), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+18), 18, 18);
+    		    	g2.setColor(Color.BLACK);
+    		        g2.fillOval((x+18), (y+18), 18, 18);
+    		        g2.setColor(Color.BLACK);
+    		    	g2.fillOval((x+65), (y+72), 18, 18);
+    		    	break;
+    			}
+    	    }
+    	    conY+= 100;
+    	    switch (current.botside) {
+    	    	case ZERO : {break;}
+    	    	case ONE: {
+    	        	g2.setColor(Color.BLACK);
+    	        	g2.fillOval((x+40+conX), (y+45+conY), 18, 18);
+    	        	break;
+    	        	}
+    	        	case TWO: {
+    	        	g2.setColor(Color.BLACK);
+    	        	  g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
+    	            g2.setColor(Color.BLACK);
+    	        	g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
+    	        	break;
+    	        	}
+    	        	case THREE: {
+    	    			g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+40+conX), (y+45+conY), 18, 18);	
+    	    	    	g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
+    	    	    	break;
+    	    		    	}
+    	        	case FOUR: {
+    	    			g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
+    	    	    	g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
+    	    	    	break;
+    	    		}
+    	        	case FIVE: {
+    	    			g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+42), (y+45+conY), 18, 18);
+    	    			g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18), (y+72+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65), (y+18+conY), 18, 18);
+    	    	    	g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18), (y+18+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65), (y+72+conY), 18, 18);
+    	    	    	break;
+    	    		}
+    	        	case SIX: {
+    	    			g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+45+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+45+conY), 18, 18);
+    	    			g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
+    	    	    	g2.setColor(Color.BLACK);
+    	    	        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
+    	    	        g2.setColor(Color.BLACK);
+    	    	    	g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
+    	    	    	break;
+    	    		}     
+    	    
+    	   }
+    	    x+= 140;
+    	    conY-=100;
+    	    count++;
+    	 }
+    }
+//----------------------------------------------------------PAINT METHOD AND BACKGROUND IMAGES-------------------------------------------------- 
+    public void paint(Graphics g) {
+//      g.setColor(Color.BLACK);
+//      g.fillRect(0, 0, WIDTH, HEIGHT); 
+    	
+    	g.drawImage(background, 0, 0, null);
+    	
+      drawdot(g, game.userOneHand.dominoes, 300, 50);
+      drawdot(g, game.userTwoHand.dominoes, 300, 650);
+      drawtable(g, game.table.dominoes, 50, 400);
+      if(!toHide) {
+          g.drawImage(waiting, 0, 0, null);
+          g.drawImage(waiting, 500, 0, null);
+          g.drawImage(waiting, 950, 0, null);
+      }else {
+    	  g.drawImage(waiting, 0, 600, null);
+    	  g.drawImage(waiting, 500, 600, null);
+    	  g.drawImage(waiting, 950, 600, null);
+      }
+   
       repaint();
+    
+      
+    }
+    
+public void background () {
+	JLabel label = new JLabel("");
+
+	label.setIcon(new ImageIcon("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background.jpg"));
+	label.setBounds(-10, -124, 977, 692);
+
+
+}
+
+public void hiddenSide () {
+
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif"));
+		label.setBounds(-10, -124, 977, 692);
+		frame.setContentPane(label);
+
+}
+
+  public void run() {
+	  Game.runGame();
+	  JFrame frame = new JFrame();
+	  drawing instance = new drawing();
+	 // JScrollPane scroll = new JScrollPane(instance, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	//  frame.add(scroll);
+	  frame.getContentPane().add(instance);
+	  frame.setBounds(250, 100, WIDTH, HEIGHT);
+	  frame.setVisible(true);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
   }
+  
+public void actionPerformed(ActionEvent e) {
+	// update screen
+	repaint();
+	}
 }
