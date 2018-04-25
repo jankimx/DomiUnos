@@ -2,6 +2,7 @@ import java.awt.Graphics;
 public class Dominoes {
 Tile topside;
 Tile botside;
+String last = null;
 boolean specialdom;
 
 //SWING JAVA GRAPHICS-----------------------
