@@ -7,10 +7,13 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.Dimension;
 import java.awt.Font;
 
@@ -32,129 +35,133 @@ public class drawing extends JPanel implements ActionListener{
     public static final int HEIGHT = 900;
     int numofDom = 0;
     boolean toHide = false;
-    boolean second = false;
     String last = "lol";
-    int turn = 0;
-    
-    int input = 0;
     Color gold = new Color(218,165,32);
+    Color yellow = new Color(255,255,0);
+    Color green = new Color(0,255,0);
     static Game game = new Game ();
     private JFrame frame;
+ int turn = 0;
+    
+    int input = 0;
     Image background = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background1.jpg");
     Image waiting = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif");
 //-----------------------------------------------------------------KEY BINDINGS----------------------------------------------------------------    
-    public class InputKeyEvents extends KeyAdapter{
-    	
-    	
-    	public void keyPressed (KeyEvent e) {
-    		int c = e.getKeyCode();
-    		//FIRST PLAYER
-    			//FIRST PLAYER FIRST STEP
-    			if (turn == 0) {
-    				if (c == 49) {
-        				input = 0;
-        				turn ++;
-        			}
-        			else if (c == 50) {
-        				input = 1;
-        				turn ++;
-        			}
-        			else if (c == 51) {
-        				input = 2;
-        				turn ++;
-        			}
-        			else if (c == 52) {
-        				input = 3;
-        				turn ++;
-        			}
-        			else if (c == 53) {
-        				input = 4;
-        				turn ++;
-        			}
-        			else if (c == 54) {
-        				input = 5;
-        				turn ++;
-        			}
-        			else if (c == 55) {
-        				input = 6;
-        				turn ++;
-        			}
-    			}
-    			//FIRST PLAYER SECOND STEP
-    			else if (turn == 1) {
-    				if (c == 37) {
-    					last = game.table.addOnTable(game.userOneHand.getDomino(input), 0);
-            			if (last != "nothing") {
-            				game.userOneHand.remove(input);
-            				turn ++;
-            			}                   
-            			}
-                    else if (c == 39) {
-                    	last = game.table.addOnTable(game.userOneHand.getDomino(input), 1);
-                    	if (last != "nothing") {
-                    		game.userOneHand.remove(input);
-                    		turn ++;
-                    	}                   
-                    	}
-    			}
-    			
-        		//SECOND PLAYER FIRST STEP
-    			else if (turn == 2) {
-    				if (c == 49) {
-        				input = 0;
-        				turn ++;
-        			}
-        			else if (c == 50) {
-        				input = 1;
-        				turn ++;
-        			}
-        			else if (c == 51) {
-        				input = 2;
-        				turn ++;
-        			}
-        			else if (c == 52) {
-        				input = 3;
-        				turn ++;
-        			}
-        			else if (c == 53) {
-        				input = 4;
-        				turn ++;
-        			}
-        			else if (c == 54) {
-        				input = 5;
-        				turn ++;
-        			}
-        			else if (c == 55) {
-        				input = 6;
-        				turn ++;
-        			}
-    			}
-    			//SECOND PLAYER SECOND STEP
-    			else if (turn == 3) {
-    				if (c == 37) {
-    					last = game.table.addOnTable(game.userTwoHand.getDomino(input), 0);
-            			if (last != "nothing") {
-            				game.userTwoHand.remove(input);
-            				turn = 0;
-            			}                   
-            			}
-                    else if (c == 39) {
-                    	last = game.table.addOnTable(game.userTwoHand.getDomino(input), 1);
-                    	if (last != "nothing") {
-                    		game.userTwoHand.remove(input);
-                    		turn = 0;
-                    	}                   
-                    	}
-    			}
+ public class InputKeyEvents extends MouseAdapter implements KeyListener{
 
+ //First player move -- Drawing domino from deck, if not then they play on table
+public void mousePressed(MouseEvent e) {
+       	 int x = e.getX();
+         int y = e.getY();
+         
+         System.out.println(x + " " + y);
+       if(turn==0) {
+       	if(x >=0 && y >= 0) {
+       		input = 0;
+       		turn++;
+       	}
+      }
+
+       }
+
+public void keyPressed (KeyEvent e) {
+	int c = e.getKeyCode();
+	//FIRST PLAYER
+//	if (!toHide && c == 32) {
+//		game.userOneHand.dominoes.add(game.GamePile.remove(0));
+//	}else if (toHide && c == 32) {
+//		game.userTwoHand.dominoes.add(game.GamePile.remove(0));
+//	}
+System.out.println("DAWG");
+		//FIRST PLAYER SECOND STEP
+		if (turn == 1) {
+			if (c == 37) {
+				last = game.table.addOnTable(game.userOneHand.getDomino(input), 0);
+    			if (last != "nothing") {
+    				game.userOneHand.remove(input);
+    				turn ++;
+    				toHide = true;
+    			}                   
     		}
-    	}
+            else if (c == 39) {
+            	last = game.table.addOnTable(game.userOneHand.getDomino(input), 1);
+            	if (last != "nothing") {
+            		game.userOneHand.remove(input);
+            		turn ++;
+            		toHide = true;
+            	}                   
+            }
+		}
+		
+		//SECOND PLAYER FIRST STEP
+		else if (turn == 2) {
+			if (c == 49) {
+				input = 0;
+				turn ++;
+			}
+			else if (c == 50) {
+				input = 1;
+				turn ++;
+			}
+			else if (c == 51) {
+				input = 2;
+				turn ++;
+			}
+			else if (c == 52) {
+				input = 3;
+				turn ++;
+			}
+			else if (c == 53) {
+				input = 4;
+				turn ++;
+			}
+			else if (c == 54) {
+				input = 5;
+				turn ++;
+			}
+			else if (c == 55) {
+				input = 6;
+				turn ++;
+			}
+		}
+		//SECOND PLAYER SECOND STEP
+		else if (turn == 3) {
+			if (c == 37) {
+				last = game.table.addOnTable(game.userTwoHand.getDomino(input), 0);
+    			if (last != "nothing") {
+    				game.userTwoHand.remove(input);
+    				turn = 0;
+    				toHide = false;
+    			}                   
+    			}
+            else if (c == 39) {
+            	last = game.table.addOnTable(game.userTwoHand.getDomino(input), 1);
+            	if (last != "nothing") {
+            		game.userTwoHand.remove(input);
+            		turn = 0;
+            		toHide = false;
+            	}                   
+            	}
+		}
 
-       
-   
+	}
+
+@Override
+public void keyReleased(KeyEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void keyTyped(KeyEvent e) {
+	// TODO Auto-generated method stub
+	
+}
+
+    	}
 //-----------------------------------------------------------------CONSTRUCTOR-----------------------------------------------------------------     
     public drawing() {
-    	addKeyListener(new InputKeyEvents());
+    	addMouseListener(new InputKeyEvents());
     	setFocusable(true);
     	setLayout(null);
     	
@@ -165,6 +172,7 @@ public class drawing extends JPanel implements ActionListener{
         Graphics2D g2 = (Graphics2D) g;
         //DRAWING WHITE TAB
         g2.setPaint(Color.WHITE);
+        
         g2.setStroke(new BasicStroke(3.0f));
         g2.fillRoundRect(x, y, 46, WIDTH/15 - 2, 10, 10);
         
@@ -180,7 +188,29 @@ public class drawing extends JPanel implements ActionListener{
         //SMALL GOLD DOT
         g.setColor(gold);
         g.fillOval(tabx + 21, taby + 46, 5, 5);
+        
+    }
+    public void drawSpecialDom (Graphics g, int x, int y) {
+        Graphics2D g2 = (Graphics2D) g;
+        //DRAWING WHITE TAB
+        g2.setPaint(yellow);
+        
+        g2.setStroke(new BasicStroke(3.0f));
+        g2.fillRoundRect(x, y, 46, WIDTH/15 - 2, 10, 10);
+        
+        int tabx = x;
+        int taby = y;
+        int tabWidth = 46;
+        //g2.fillRoundRect(x, y, 100, 200, 20, 20);
+        //DRAWING BLACK STRIP
+        //IF ITS PLAYER 1 DECK
+        g.setColor(Color.BLACK);
+        g.fillRect(tabx, taby + 48, tabWidth, 2);
 
+        //SMALL GOLD DOT
+        g.setColor(Color.GREEN);
+        g.fillOval(tabx + 21, taby + 46, 5, 5);
+        
     }
     public void drawDomHorizon (Graphics g, int x, int y) {
  
@@ -227,7 +257,8 @@ public void drawdot(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
    Graphics2D g2 = (Graphics2D) g;
     
    for (Dominoes current: domino) {
-      drawDom(g, x, y);
+      if(current.isSpecial()) {drawSpecialDom(g, x, y);}
+      else {  drawDom(g, x, y);}
        
     switch(current.topside) {
         case ZERO : { break;}
@@ -1078,43 +1109,26 @@ public void drawdot(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
 //      g.setColor(Color.BLACK);
 //      g.fillRect(0, 0, WIDTH, HEIGHT); 
     	
-    	g.drawImage(background, 0, 0, null);
-    	
-      drawdot(g, game.userOneHand.dominoes, 300, 50);
-      drawdot(g, game.userTwoHand.dominoes, 300, 650);
+      g.drawImage(background, 0, 0, null);
+      
+      drawdot(g, game.userOneHand.dominoes, 100, 50);
+      drawdot(g, game.userTwoHand.dominoes, 100, 650);
       drawtable(g, game.table.dominoes, 50, 400);
-      if(!toHide) {
-          g.drawImage(waiting, 0, 0, null);
-          g.drawImage(waiting, 500, 0, null);
-          g.drawImage(waiting, 950, 0, null);
-      }else {
-    	  g.drawImage(waiting, 0, 600, null);
-    	  g.drawImage(waiting, 500, 600, null);
-    	  g.drawImage(waiting, 950, 600, null);
-      }
+//      if(toHide) {
+//          g.drawImage(waiting, 0, 0, null);
+//          g.drawImage(waiting, 500, 0, null);
+//          g.drawImage(waiting, 950, 0, null);
+//      }else {
+//    	  g.drawImage(waiting, 0, 600, null);
+//    	  g.drawImage(waiting, 500, 600, null);
+//    	  g.drawImage(waiting, 950, 600, null);
+//      }
    
       repaint();
     
       
     }
-    
-public void background () {
-	JLabel label = new JLabel("");
 
-	label.setIcon(new ImageIcon("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background.jpg"));
-	label.setBounds(-10, -124, 977, 692);
-
-
-}
-
-public void hiddenSide () {
-
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif"));
-		label.setBounds(-10, -124, 977, 692);
-		frame.setContentPane(label);
-
-}
 
   public void run() {
 	  Game.runGame();
@@ -1133,4 +1147,5 @@ public void actionPerformed(ActionEvent e) {
 	// update screen
 	repaint();
 	}
+
 }
