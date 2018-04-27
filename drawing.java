@@ -32,7 +32,11 @@ public class drawing extends JPanel implements ActionListener{
     public static final int HEIGHT = 900;
     int numofDom = 0;
     boolean toHide = false;
+    boolean second = false;
     String last = "lol";
+    int turn = 0;
+    
+    int input = 0;
     Color gold = new Color(218,165,32);
     static Game game = new Game ();
     private JFrame frame;
@@ -40,74 +44,114 @@ public class drawing extends JPanel implements ActionListener{
     Image waiting = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif");
 //-----------------------------------------------------------------KEY BINDINGS----------------------------------------------------------------    
     public class InputKeyEvents extends KeyAdapter{
+    	
+    	
+    	public void keyPressed (KeyEvent e) {
+    		int c = e.getKeyCode();
+    		//FIRST PLAYER
+    			//FIRST PLAYER FIRST STEP
+    			if (turn == 0) {
+    				if (c == 49) {
+        				input = 0;
+        				turn ++;
+        			}
+        			else if (c == 50) {
+        				input = 1;
+        				turn ++;
+        			}
+        			else if (c == 51) {
+        				input = 2;
+        				turn ++;
+        			}
+        			else if (c == 52) {
+        				input = 3;
+        				turn ++;
+        			}
+        			else if (c == 53) {
+        				input = 4;
+        				turn ++;
+        			}
+        			else if (c == 54) {
+        				input = 5;
+        				turn ++;
+        			}
+        			else if (c == 55) {
+        				input = 6;
+        				turn ++;
+        			}
+    			}
+    			//FIRST PLAYER SECOND STEP
+    			else if (turn == 1) {
+    				if (c == 37) {
+    					last = game.table.addOnTable(game.userOneHand.getDomino(input), 0);
+            			if (last != "nothing") {
+            				game.userOneHand.remove(input);
+            				turn ++;
+            			}                   
+            			}
+                    else if (c == 39) {
+                    	last = game.table.addOnTable(game.userOneHand.getDomino(input), 1);
+                    	if (last != "nothing") {
+                    		game.userOneHand.remove(input);
+                    		turn ++;
+                    	}                   
+                    	}
+    			}
+    			
+        		//SECOND PLAYER FIRST STEP
+    			else if (turn == 2) {
+    				if (c == 49) {
+        				input = 0;
+        				turn ++;
+        			}
+        			else if (c == 50) {
+        				input = 1;
+        				turn ++;
+        			}
+        			else if (c == 51) {
+        				input = 2;
+        				turn ++;
+        			}
+        			else if (c == 52) {
+        				input = 3;
+        				turn ++;
+        			}
+        			else if (c == 53) {
+        				input = 4;
+        				turn ++;
+        			}
+        			else if (c == 54) {
+        				input = 5;
+        				turn ++;
+        			}
+        			else if (c == 55) {
+        				input = 6;
+        				turn ++;
+        			}
+    			}
+    			//SECOND PLAYER SECOND STEP
+    			else if (turn == 3) {
+    				if (c == 37) {
+    					last = game.table.addOnTable(game.userTwoHand.getDomino(input), 0);
+            			if (last != "nothing") {
+            				game.userTwoHand.remove(input);
+            				turn = 0;
+            			}                   
+            			}
+                    else if (c == 39) {
+                    	last = game.table.addOnTable(game.userTwoHand.getDomino(input), 1);
+                    	if (last != "nothing") {
+                    		game.userTwoHand.remove(input);
+                    		turn = 0;
+                    	}                   
+                    	}
+    			}
 
-    	public void keyPressed(KeyEvent e) {
-            int c=e.getKeyCode();
+    		}
+    	}
 
-    	//First player move
-    	if (!toHide) {
-    		if(c == 49) {
-    			last = game.table.addOnTable(game.userOneHand.getDomino(0));
-                if (last != "nothing") {
-                    game.userOneHand.remove(0);
-                }
-            }
-    		else if(c == 50) {
-    			last = game.table.addOnTable(game.userOneHand.getDomino(1));
-                if (last != "nothing") {
-                    game.userOneHand.remove(1);
-                }
-        		}
-    			else if(c == 51) {
-            			 Game.table.addOnTable( Game.userOneHand.remove(2));
-            		}
-    				else if(c == 52) {
-                			 Game.table.addOnTable( Game.userOneHand.remove(3));	
-                		}
-    					else if(c == 53) {
-                				 Game.table.addOnTable( Game.userOneHand.remove(4));
-                		}
-    						else if(c == 54) {
-                					 Game.table.addOnTable( Game.userOneHand.remove(5));
-                    		} 
-    							else if(c == 55) {
-                					 Game.table.addOnTable( Game.userOneHand.remove(6));
-                				}
-    		toHide=true;
-    	}		//Second player move
-    	else {
-    		if(c == 49) {
-    			last = game.table.addOnTable(game.userTwoHand.getDomino(0));
-                if (last != "nothing") {
-                    game.userTwoHand.remove(0);
-                }
-           }
-   		else if(c == 50) {
-   			last = game.table.addOnTable(game.userTwoHand.getDomino(1));
-            if (last != "nothing") {
-                game.userTwoHand.remove(1);
-            }
-       		}
-   			else if(c == 51) {
-           			 Game.table.addOnTable( Game.userTwoHand.remove(2));
-           		}
-   				else if(c == 52) {
-               			 Game.table.addOnTable( Game.userTwoHand.remove(3));	
-               		}
-   					else if(c == 53) {
-               				 Game.table.addOnTable( Game.userTwoHand.remove(4));
-               		}
-   						else if(c == 54) {
-               					 Game.table.addOnTable( Game.userTwoHand.remove(5));
-                   		} 
-   							else if(c == 55) {
-               					 Game.table.addOnTable( Game.userTwoHand.remove(6));
-               				}
-    		toHide=false;
-    	}		
-    }
        
-   }
+   
 //-----------------------------------------------------------------CONSTRUCTOR-----------------------------------------------------------------     
     public drawing() {
     	addKeyListener(new InputKeyEvents());
