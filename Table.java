@@ -5,9 +5,12 @@ public class Table {
     int numDoms = 0;
     int rightSide = 28;
     int leftSide  = 26;
+    boolean leftCovered = false;
+    boolean rightCovered = false;
      
     //Dominoes currently on table, not in order
-    public String addOnTable (Dominoes toAdd) {
+    public String addOnTable (Dominoes toAdd, int side) {
+    	//FIRST DOMINO PLACING
         if (numDoms == 0) {
         dominoes[27] = toAdd;
         right = dominoes[27].botside;
@@ -15,117 +18,101 @@ public class Table {
         numDoms++;
         return "any";
         }
-        else if (numDoms == 1) {
-        	if (toAdd.topside == dominoes[27].botside || toAdd.topside == dominoes[27].topside) {
-        		dominoes[rightSide] = toAdd;
-        		right = toAdd.botside;
-        		rightSide ++;
-        		numDoms ++;
-        		toAdd.last = "rightbotside";
-        		return "rightbotside";
+        
+        //IF DOMINO IS NOT FIRST ONE
+        else if (numDoms > 0) {
+        	//IF SECOND DOMINO IS PLACED ON LEFT
+        	if (leftCovered == false && side == 0) {
+        		if (toAdd.topside == dominoes[27].botside || toAdd.topside == dominoes[27].topside) {
+            		dominoes[leftSide] = toAdd;
+            		left = toAdd.botside;
+            		leftSide ++;
+            		numDoms ++;
+            		toAdd.last = "leftbotside";
+            		leftCovered = true;
+            		return "leftbotside";
+            	}
+        		else if (toAdd.botside == dominoes[27].botside || toAdd.botside == dominoes[27].topside) {
+            		dominoes[leftSide] = toAdd;
+            		left = toAdd.topside;
+            		leftSide ++;
+            		numDoms ++;
+            		toAdd.last = "lefttopside";
+            		leftCovered = true;
+            		return "lefttopside";
+            	}
+        		else {
+            		return "nothing";
+            	}
         	}
-        	else if (toAdd.botside == dominoes[27].botside || toAdd.botside == dominoes[27].topside) {
-        		dominoes[rightSide] = toAdd;
-        		right = toAdd.topside;
-        		rightSide ++;
-        		numDoms ++;
-        		toAdd.last = "righttopside";
-        		return "righttopside";
+        	//IF SECOND DOMINO IS PLACED ON RIGHT
+        	else if (rightCovered == false && side == 1) {
+        		if (toAdd.topside == dominoes[27].botside || toAdd.topside == dominoes[27].topside) {
+            		dominoes[rightSide] = toAdd;
+            		right = toAdd.botside;
+            		rightSide ++;
+            		numDoms ++;
+            		toAdd.last = "rightbotside";
+            		rightCovered = true;
+            		return "rightbotside";
+            	}
+            	else if (toAdd.botside == dominoes[27].botside || toAdd.botside == dominoes[27].topside) {
+            		dominoes[rightSide] = toAdd;
+            		right = toAdd.topside;
+            		rightSide ++;
+            		numDoms ++;
+            		toAdd.last = "righttopside";
+            		rightCovered = true;
+            		return "righttopside";
+            	}
+            	else {
+            		return "nothing";
+            	}
         	}
-        	else {
-        		return "nothing";
+        	else if (leftCovered && side == 0) {
+        		 if(toAdd.topside == left) {
+                     dominoes[leftSide] = toAdd;
+                     left = toAdd.botside;
+                     leftSide--;
+                     numDoms++;
+                     toAdd.last = "leftbotside";
+                     return "leftbotside";
+                 }
+                 else if(toAdd.botside == left) {
+                     dominoes[leftSide] = toAdd;
+                     right = toAdd.topside;
+                     leftSide--;
+                     numDoms++;
+                     toAdd.last = "lefttopside";
+                     return "lefttopside";
+                 }
+                 else {
+                 	return "nothing";
+                 }
+        	}
+        	else if (rightCovered && side == 1) {
+        		if (toAdd.topside == right) {
+                    dominoes[rightSide] = toAdd;
+                    right = toAdd.botside;
+                    rightSide++;
+                    numDoms++;
+                    toAdd.last = "rightbotside";
+                    return "rightbotside";
+                }
+                else if(toAdd.botside == right) {
+                    dominoes[rightSide] = toAdd;
+                    right = toAdd.topside;
+                    rightSide++;
+                    numDoms++;
+                    toAdd.last = "righttopside";
+                    return "righttopside";
+                }
         	}
         }
-        else if (numDoms == 2) {
-        	if (toAdd.topside == dominoes[27].botside || toAdd.topside == dominoes[27].topside) {
-        		dominoes[leftSide] = toAdd;
-        		left = toAdd.botside;
-        		leftSide ++;
-        		numDoms ++;
-        		toAdd.last = "leftbotside";
-        		return "leftbotside";
-        	}
-        	else if (toAdd.botside == dominoes[27].botside || toAdd.botside == dominoes[27].topside) {
-        		dominoes[leftSide] = toAdd;
-        		left = toAdd.topside;
-        		leftSide ++;
-        		numDoms ++;
-        		toAdd.last = "lefttopside";
-        		return "lefttopside";
-        	}
-        	else if (toAdd.topside == right) {
-                dominoes[rightSide] = toAdd;
-                right = toAdd.botside;
-                rightSide++;
-                numDoms++;
-                toAdd.last = "rightbotside";
-                return "rightbotside";
-            }
-            else if(toAdd.botside == right) {
-                dominoes[rightSide] = toAdd;
-                right = toAdd.topside;
-                rightSide++;
-                numDoms++;
-                toAdd.last = "righttopside";
-                return "righttopside";
-            }
-            else {
-            	return "nothing";
-            }
-        		
+		return "nothing";
         }
-        else { //If the dominoes topside is equal to the outmost right tile, then we add that
-                // domino on the right side of the array and make right equal to botside
-                // we run the same idea on the other 3 cases
-            if (toAdd.topside == right) {
-                dominoes[rightSide] = toAdd;
-                right = toAdd.botside;
-                rightSide++;
-                numDoms++;
-                toAdd.last = "rightbotside";
-                return "rightbotside";
-            }
-            else if(toAdd.botside == right) {
-                dominoes[rightSide] = toAdd;
-                right = toAdd.topside;
-                rightSide++;
-                numDoms++;
-                toAdd.last = "righttopside";
-                return "righttopside";
-            }
-            else if(toAdd.topside == left) {
-                dominoes[leftSide] = toAdd;
-                left = toAdd.botside;
-                leftSide--;
-                numDoms++;
-                toAdd.last = "leftbotside";
-                return "leftbotside";
-            }
-            else if(toAdd.botside == left) {
-                dominoes[leftSide] = toAdd;
-                right = toAdd.topside;
-                leftSide--;
-                numDoms++;
-                toAdd.last = "lefttopside";
-                return "lefttopside";
-            }
-            else {
-            	return "nothing";
-            }
-        }
-    }
-     
-//  public void addOnTable (Dominoes toAdd) {
-//      if (numDoms == 0) {
-//          dominoes[27] = toAdd;
-//          numDoms ++;
-//      }
-//      else {
-//      dominoes[rightSide] = toAdd;
-//      rightSide ++;
-//      numDoms ++;
-//      }
-//  }
+        
+
     public String toString () {
          
         String toReturn = "";
