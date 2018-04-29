@@ -3,7 +3,8 @@ public class Dominoes {
 Tile topside;
 Tile botside;
 String last = null;
-boolean specialdom;
+boolean specialskipdom;
+boolean specialdrawdom;
 
 //SWING JAVA GRAPHICS-----------------------
 
@@ -33,10 +34,16 @@ public boolean compare (Dominoes toCompare) {
 		return false;
 	}
 }
-public void makeSpecial() {
-	this.specialdom = true;
+public void makeSpecialSkip() {
+	this.specialskipdom = true;
 }
-public boolean isSpecial() {
-	return this.specialdom;
-	}
+public boolean isSpecialSkip() {
+	return this.specialskipdom;
+}
+public void makeSpecialDraw() {
+	this.specialdrawdom = true;
+}
+public boolean isSpecialDraw() {
+	return this.specialdrawdom;
+}
 }
