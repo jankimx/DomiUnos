@@ -26,7 +26,7 @@ public class Table {
         		if (toAdd.topside == dominoes[27].botside || toAdd.topside == dominoes[27].topside) {
             		dominoes[leftSide] = toAdd;
             		left = toAdd.botside;
-            		leftSide ++;
+            		leftSide --;
             		numDoms ++;
             		toAdd.last = "leftbotside";
             		leftCovered = true;
@@ -35,7 +35,7 @@ public class Table {
         		else if (toAdd.botside == dominoes[27].botside || toAdd.botside == dominoes[27].topside) {
             		dominoes[leftSide] = toAdd;
             		left = toAdd.topside;
-            		leftSide ++;
+            		leftSide --;
             		numDoms ++;
             		toAdd.last = "lefttopside";
             		leftCovered = true;
@@ -80,7 +80,7 @@ public class Table {
                  }
                  else if(toAdd.botside == left) {
                      dominoes[leftSide] = toAdd;
-                     right = toAdd.topside;
+                     left = toAdd.topside;
                      leftSide--;
                      numDoms++;
                      toAdd.last = "lefttopside";
