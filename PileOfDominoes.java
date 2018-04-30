@@ -43,16 +43,17 @@ public void createPile() {
         Random rand = new Random();
         ArrayList<Dominoes> tempPile = new ArrayList<Dominoes>();
         int size = dominoes.size();
-        for(int n = 0; n < 4; n++) {
+        for(int n = 0; n < 2; n++) {
             int randomIndex = (int)(Math.random() * 27);
               Dominoes temp = this.dominoes.get(randomIndex);
-              if(randomIndex % 2 == 0) {
-            	  temp.makeSpecialSkip();
-              }
-              if(randomIndex % 2 == 1){
-            	  temp.makeSpecialDraw();
-              }
+              temp.makeSpecialSkip();
               this.dominoes.set(randomIndex, temp);
+        }
+        for(int n = 0; n < 2; n++) {
+        	int randomIndex = (int)(Math.random() * 27);
+        	Dominoes temp = this.dominoes.get(randomIndex);
+        	temp.makeSpecialDraw();
+        	this.dominoes.set(randomIndex, temp);
         }
         for (int i = 0; i < size; i++) {
              int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
