@@ -34,6 +34,7 @@ public class drawing extends JPanel implements ActionListener{
     public static final int HEIGHT = 900;
     public static final int FPS = 60;
     int numofDom = 0;
+    ArrayList<Dominoes> dominoto = new ArrayList<Dominoes>();
     boolean toHide = false;
     String last = "lol";
     Color gold = new Color(218,165,32);
@@ -70,19 +71,33 @@ public class drawing extends JPanel implements ActionListener{
       if(!toHide) {
  
               if(x<WIDTH/2) {
-                  game.table.addOnTable(game.userOneHand.remove(toRemove), 0);
+                  if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 0) != "nothing") {
+                	  dominoto.add(game.userOneHand.remove(toRemove));
+                	  numofDom ++;
+                  }
               }
               else {
-                  game.table.addOnTable(game.userOneHand.remove(toRemove), 1);
+                  if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 1) != "nothing")
+                	  dominoto.add(game.userOneHand.remove(toRemove));
+                  	numofDom ++;
+
               }  
               toHide=true;
         }
       else {
           if(x<WIDTH/2) {
-              game.table.addOnTable(game.userTwoHand.remove(toRemove), 0);
+        	  if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 0) != "nothing") {
+            	  	dominoto.add(game.userTwoHand.remove(toRemove));
+                	numofDom ++;
+
+              }
           }
           else {
-              game.table.addOnTable(game.userTwoHand.remove(toRemove), 1);
+        	  if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 1) != "nothing") {
+            	  dominoto.add(game.userTwoHand.remove(toRemove));
+                	numofDom ++;
+
+              }
           }  
           toHide = false;
      }
@@ -188,32 +203,10 @@ public class drawing extends JPanel implements ActionListener{
         g.fillOval(tabx + 21, taby + 46, 5, 5);
          
     }
-    public void drawSpecialSkipDom (Graphics g, double x, double y) {
+    public void drawSpecialDom (Graphics g, double x, double y) {
         Graphics2D g2 = (Graphics2D) g;
         //DRAWING WHITE TAB
-        g2.setPaint(Color.RED);
-         
-        g2.setStroke(new BasicStroke(3.0f));
-        g2.fillRoundRect((int)x, (int)y, 46, WIDTH/15 - 2, 10, 10);
-         
-        double tabx = x;
-        double taby = y;
-        double tabWidth = 46;
-        //g2.fillRoundRect(x, y, 100, 200, 20, 20);
-        //DRAWING BLACK STRIP
-        //IF ITS PLAYER 1 DECK
-        g.setColor(Color.BLACK);
-        g.fillRect((int)tabx,(int) taby + 48, (int)tabWidth, 2);
- 
-        //SMALL GOLD DOT
-        g.setColor(Color.GREEN);
-        g.fillOval((int)tabx + 21,(int) taby + 46, 5, 5);
-         
-    }
-    public void drawSpecialDrawDom (Graphics g, double x, double y) {
-        Graphics2D g2 = (Graphics2D) g;
-        //DRAWING WHITE TAB
-        g2.setPaint(Color.BLUE);
+        g2.setPaint(yellow);
          
         g2.setStroke(new BasicStroke(3.0f));
         g2.fillRoundRect((int)x, (int)y, 46, WIDTH/15 - 2, 10, 10);
@@ -243,7 +236,6 @@ public class drawing extends JPanel implements ActionListener{
          int rightY = 0;
          int leftX = 0;
          int leftY = 0;
-      //   if (last == "righttopside" || last == "rightbotside") {
              g2.fillRoundRect(x, y, WIDTH/15 - 2, 46, 10, 10);
               
              //DRAWING BLACK STRIP
@@ -253,19 +245,7 @@ public class drawing extends JPanel implements ActionListener{
              //SMALL GOLD DOT
              g.setColor(gold);
              g.fillOval(x + (WIDTH/15 - 2)/2 - 3, y + 23, 5, 5);
-       /*  }
-         else {
-             g2.fillRoundRect(x, y, WIDTH/15 - 2, 46, 10, 10);
-              
-             //DRAWING BLACK STRIP
-             //IF ITS PLAYER 1 DECK
-             g.setColor(Color.BLACK);
-             g.fillRect(x + (WIDTH/15 - 2)/2 - 1, y, 2, 46);
-             //SMALL GOLD DOT
-             g.setColor(gold);
-             g.fillOval(x + (WIDTH/15 - 2)/2 - 3, y + 23, 5, 5);
-         }
-        */
+      
     }
       
     //DRAWING VERTICAL DOMINO
@@ -280,8 +260,7 @@ public void drawdot(Graphics g, Dominoes domino, double k, double p) {
    Graphics2D g2 = (Graphics2D) g;
      
  
-      if(domino.isSpecialSkip()) {drawSpecialSkipDom(g, x, y);}
-      else if(domino.isSpecialDraw()) {drawSpecialDrawDom(g, x, y);}
+      if(domino.isSpecial()) {drawSpecialDom(g, x, y);}
       else {  drawDom(g, x, y);}
         
      for(int i = 0; i < 2; i++) { 
@@ -425,8 +404,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
        Graphics2D g2 = (Graphics2D) g;
          
        for (Dominoes current: domino) {
-          if(current.isSpecialSkip()) {drawSpecialSkipDom(g, x, y);}
-          else if(current.isSpecialDraw()) {drawSpecialDrawDom(g, x, y);}
+          if(current.isSpecial()) {drawSpecialDom(g, x, y);}
           else {  drawDom(g, x, y);}
             
         switch(current.topside) {
@@ -558,40 +536,29 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
         x+= 140;
        }
      } 
-    public void drawtable(Graphics g, Dominoes [] domino, int x, int y) {
+    public void drawtable(Graphics g, ArrayList <Dominoes> domino, int x, int y, Table table) {
  
-// 
-//           //constants
-//           int conX = 0;
            int botShift = 48;
            Graphics2D g2 = (Graphics2D) g;
-//            
-//           int save = 0;
-//           int save2 = 0;
            int count = 0;
            int nextDomXR = 0;
            int nextDomYR = 0;
             
            int nextDomXL = 0;
            int nextDomYL = 0;
-//           int next = 0;
-//           int savex = 750;
-//           int save2x = savex + 106;
-//           int savey = 450;
+
            for (Dominoes current: domino) {
                //IF FIRST DOMINO PLACED ON TABLE
-               if(current == null) continue;
                    if (count == 0) {
-                       ArrayList<Dominoes> dominoto = new ArrayList<Dominoes>();
-                       dominoto.add(current);
-                       drawdotTable(g, dominoto, x+600, y);
+                       ArrayList<Dominoes> yes = new ArrayList<Dominoes>();
+                       yes.add(current);
+                       drawdotTable(g, yes, x+600, y);
                        nextDomXR = x + 648;
                        nextDomYR = y + 23;
                         
                        nextDomXL = x + 600 - 96;
                        nextDomYL = nextDomYR;
- 
-                       count++;
+                       count ++;
                    }
                    else {
                        //IF DOMINO IS TO THE RIGHT
@@ -723,7 +690,6 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                                g2.fillOval((nextDomXR + 20 + botShift), (nextDomYR + 34), 10, 10);
                            }
                                }
-                           count++;
                            nextDomXR = nextDomXR + 96;
                            }
                            else {
@@ -852,7 +818,6 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                                g2.fillOval((nextDomXR + 20 + botShift), (nextDomYR + 34), 10, 10);
                            }
                                }
-                           count++;
                            nextDomXR = nextDomXR + 96;
                            }
                        }
@@ -985,7 +950,6 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                            g2.fillOval((nextDomXL + 20 + botShift), (nextDomYL + 34), 10, 10);
                        }
                            }
-                       count++;
                        nextDomXL = nextDomXL - 96;
                            }
                            else {
@@ -1114,163 +1078,13 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                                g2.fillOval((nextDomXL + 20 + botShift), (nextDomYL + 34), 10, 10);
                            }
                                }
-                           count++;
                            nextDomXL = nextDomXL - 96;
                            }
                        }
                    }
            }
 }
-    public void drawDotshorizon (Graphics g, Dominoes [] domino, int p, int k) {
-         
-         int y = k;
-           int x = p;
-           //constants
-           int conX = k;
-           int conY = p;
-           Graphics2D g2 = (Graphics2D) g;
-            
-           int j = 0;
-           int count = 0;
-        
-        for(Dominoes current : domino) {
-            if(count%7 == 0 && count !=0)  j+=225;
-            if(current == null) continue;
-            //if(count == 0) { drawtable(g, domino, p, k); count ++; continue;}
-              //drawDomHorizon(g, k, p+j);
-            switch(current.topside) {
-                case ZERO : { break;}
-                case ONE: {
-                g2.setColor(Color.BLACK);
-                g2.fillOval((x+40), (y+45), 18, 18);
-                break;
-                }
-                case TWO: {
-                g2.setColor(Color.BLACK);
-                  g2.fillOval((x+18), (y+72), 18, 18);
-                g2.setColor(Color.BLACK);
-                g2.fillOval((x+65), (y+17), 18, 18);
-                break;
-                }
-                case THREE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+40), (y+45), 18, 18);    
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+17), 18, 18);
-                    break;
-                        }
-                case FOUR: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-                case FIVE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+42), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-                case SIX: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+45), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+72), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+18), (y+18), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65), (y+72), 18, 18);
-                    break;
-                }
-            }
-            conY+= 100;
-            switch (current.botside) {
-                case ZERO : {break;}
-                case ONE: {
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+40+conX), (y+45+conY), 18, 18);
-                    break;
-                    }
-                    case TWO: {
-                    g2.setColor(Color.BLACK);
-                      g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                    g2.setColor(Color.BLACK);
-                    g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
-                    break;
-                    }
-                    case THREE: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+40+conX), (y+45+conY), 18, 18);  
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+17+conY), 18, 18);
-                        break;
-                            }
-                    case FOUR: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
-                        break;
-                    }
-                    case FIVE: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+42), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65), (y+72+conY), 18, 18);
-                        break;
-                    }
-                    case SIX: {
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+45+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+72+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+18+conX), (y+18+conY), 18, 18);
-                        g2.setColor(Color.BLACK);
-                        g2.fillOval((x+65+conX), (y+72+conY), 18, 18);
-                        break;
-                    }     
-             
-           }
-            x+= 140;
-            conY-=100;
-            count++;
-         }
-    }
+
 //----------------------------------------------------------PAINT METHOD AND BACKGROUND IMAGES-------------------------------------------------- 
     public void paint(Graphics g) {
  
@@ -1290,7 +1104,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
       p+=140;
       }
  
-     drawtable(g, game.table.dominoes, 50+x, 400);
+     drawtable(g, dominoto, 50+x, 400, game.table);
       
       if(toHide) {
           g.drawImage(waiting, 0, 0, null);
