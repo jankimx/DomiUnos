@@ -594,7 +594,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                        nextDomYR = y + 23;
                         
                        nextDomXL = x + 600 - 96;
-                       nextDomYL = nextDomYR;
+                       nextDomYL = y + 23;
  
                        count++;
                    }
