@@ -10,11 +10,11 @@ Sophistication: I think our game is rather sophisticated. Most of the sophistica
 
 Broadness: We ticked boxes 1, 2, 3, 5, 7, 8. Here’s where we used each and how it was justified:
 
-      1. Java libraries that we haven’t seen in class: import java.awt.event.MouseAdapter, import java.awt.event.MouseEvent, and import java.awt.event.MouseListener to name a few!
-      2. Subclassing ( `extends`):  InputMouseEvents extends MouseAdapter, InputKeyEvents extends KeyAdapter, drawing extends JPanel implements ActionListener
+      1. Java libraries that we haven’t seen in class: import java.awt.event.MouseAdapter, import java.awt.event.MouseEvent, and import          java.awt.event.MouseListener to name a few!
+      2. Subclassing ( `extends`):  InputMouseEvents extends MouseAdapter, InputKeyEvents extends KeyAdapter, drawing extends JPanel              implements ActionListener
       3. Interfaces ( `implements`): drawing extends JPanel implements ActionListener
       5. Built in data structures
       7. Randomization: Used this to shuffle the pile of dominoes and to randomly select the 2 special tiles (1 skip, 1 draw one tile)
       8. Generics: 
 
-Code Quality: We followed the same commenting style as seen in Project 1 and 2. In addition, we used the following naming scheme for methods/variables […]. Also, to make sure the rules of Tetris were followed, we coded up many tests. See `testRules.java` for these.
+Code Quality: We followed pretty much the same commenting style as seen in Project 1 and 2. In addition, the naming scheme for the methods and variables were self explanatory. The classes we made: Table, Tile, Window, drawing, PileOfDominoes, Game, etc. were also self-explanatory. Nevertheless, we put comments throughout all of the code. Also, to make sure the rules of Dominuno's were followed, we went did a bunch of run-throughs where we played the game out to see if it worked or not.
