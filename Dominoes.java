@@ -34,15 +34,19 @@ public boolean compare (Dominoes toCompare) {
 		return false;
 	}
 }
+	//METHOD THAT MAKES THE SPECIAL SKIP TILE TRUE
 public void makeSpecialSkip() {
 	this.specialskipdom = true;
 }
+	//METHOD THAT RETURNS THE SPECIAL SKIP DOMINO
 public boolean isSpecialSkip() {
 	return this.specialskipdom;
 }
+	//METHOD THAT RETURNS THE SPECIAL DRAW ONE DOMINO
 public void makeSpecialDraw() {
 	this.specialdrawdom = true;
 }
+	//METHOD THAT RETURNS THE SPECIAL DRAW ONE DOMINO
 public boolean isSpecialDraw() {
 	return this.specialdrawdom;
 }
