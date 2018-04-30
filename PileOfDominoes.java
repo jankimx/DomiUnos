@@ -46,21 +46,21 @@ public void createPile() {
         ArrayList<Dominoes> tempPile = new ArrayList<Dominoes>();
         int size = dominoes.size();
      //RANDOMLY SELECTING SPECIAL DOMINOES
-     //SKIP DOMINO
+     //SKIP DOMINO; SELECTS A RANDOM DOMINO AND MAKES IT A SPECIAL SKIP DOMINO
         for(int n = 0; n < 2; n++) {
             int randomIndex = (int)(Math.random() * 27);
               Dominoes temp = this.dominoes.get(randomIndex);
               temp.makeSpecialSkip();
               this.dominoes.set(randomIndex, temp);
         }
-     //DRAW ONE DOMINO
-        for(int n = 0; n < 2; n++) {
+     //DRAW ONE DOMINO; SELECTS A RANDOM DOMINO AND MAKES IT A SPECIAL DRAW DOMINO
+        for(int n = 0; n < 1; n++) {
         	int randomIndex = (int)(Math.random() * 27);
         	Dominoes temp = this.dominoes.get(randomIndex);
         	temp.makeSpecialDraw();
         	this.dominoes.set(randomIndex, temp);
         }
-     //REST OF DOMINOES
+     //DOMINOES ARE SHUFFLED
         for (int i = 0; i < size; i++) {
              int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
      
@@ -121,10 +121,12 @@ public void createPile() {
             }
             return totalValue;
     }
+ //REMOVE DOMINOES METHOD
     public Dominoes remove (int p) {
  
         return this.dominoes.remove(p);
     }
+ //RETURN SIZE METHOD
     public int size() {
         return dominoes.size();
     }
