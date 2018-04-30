@@ -39,29 +39,34 @@ public void createPile() {
     return toPrint;
      
 }
+ 
+//SHUFFLE DOMINOES
     public void Shuffle () {
         Random rand = new Random();
         ArrayList<Dominoes> tempPile = new ArrayList<Dominoes>();
         int size = dominoes.size();
+     //RANDOMLY SELECTING SPECIAL DOMINOES
+     //SKIP DOMINO
         for(int n = 0; n < 2; n++) {
             int randomIndex = (int)(Math.random() * 27);
               Dominoes temp = this.dominoes.get(randomIndex);
               temp.makeSpecialSkip();
               this.dominoes.set(randomIndex, temp);
         }
+     //DRAW ONE DOMINO
         for(int n = 0; n < 2; n++) {
         	int randomIndex = (int)(Math.random() * 27);
         	Dominoes temp = this.dominoes.get(randomIndex);
         	temp.makeSpecialDraw();
         	this.dominoes.set(randomIndex, temp);
         }
+     //REST OF DOMINOES
         for (int i = 0; i < size; i++) {
              int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
      
              tempPile.add(this.dominoes.remove(randomindex));
              
         }
-         
          
         this.dominoes = tempPile;
     }
