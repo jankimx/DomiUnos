@@ -66,25 +66,40 @@ public class drawing extends JPanel implements ActionListener{
         public void mouseReleased(MouseEvent e) {
               int x = e.getX();
               int y = e.getY();
-        //First player round      
+         //First player round
+         //TURNS: IF toHide IS TRUE, THEN IT IS PLAYER 2'S TURN. IF toHide IS FALSE, THE IT IS PLAYER ONE'S TURN
       if(!toHide) {
- 
               if(x<WIDTH/2) {
                   game.table.addOnTable(game.userOneHand.remove(toRemove), 0);
+                  toHide=true; //PLAYER 2'S TURN AFTER PLAYER ONE REMOVES A TILE FROM THEIR HAND
               }
+              	if(game.userOneHand.remove(toRemove).isSpecialSkip()) {
+              		toHide=false; //IF PLAYER ONE REMOVES A SPECIAL SKIP DOMINO, THEY GO AGAIN
+              	}
               else {
                   game.table.addOnTable(game.userOneHand.remove(toRemove), 1);
-              }  
-              toHide=true;
+                  toHide=true; //PLAYER 2'S TURN AFTER PLAYER ONE REMOVES A TILE FROM THEIR HAND
+            	if(game.userOneHand.remove(toRemove).isSpecialSkip()) {
+              		toHide=false; //IF PLAYER ONE REMOVES A SPEICAL SKIP DOMINO, THEY GO AGAIN
+              	}
+              }
+
         }
+      }
       else {
           if(x<WIDTH/2) {
               game.table.addOnTable(game.userTwoHand.remove(toRemove), 0);
+              	toHide = false;
           }
+          	if(game.userTwoHand.remove(toRemove).isSpecialSkip()){
+          		toHide = true;
+          	}
           else {
               game.table.addOnTable(game.userTwoHand.remove(toRemove), 1);
-          }  
-          toHide = false;
+              	toHide = false;
+          }
+        	if(game.userTwoHand.remove(toRemove).isSpecialSkip()){
+          		toHide = true;
      }
    }
         public void mouseDragged(MouseEvent e) {
