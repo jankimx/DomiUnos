@@ -36,7 +36,6 @@ public class drawing extends JPanel implements ActionListener{
     public static final int FPS = 60;
     boolean toHide = false;
     boolean torun = false;
-    boolean hideBoth = false;
     ArrayList<Dominoes> dominoto = new ArrayList<Dominoes>();
     int toDrag = -1;
     String last = "lol";
@@ -47,8 +46,8 @@ public class drawing extends JPanel implements ActionListener{
     static Game game = new Game ();
     int x = 0;
     private JFrame frame;
-    Image background = Toolkit.getDefaultToolkit().createImage("C:\\Users\\juper\\Desktop\\background\\background1.jpg");
-    Image waiting = Toolkit.getDefaultToolkit().createImage("C:\\Users\\juper\\Desktop\\background\\dominoesfall.gif");
+    Image background = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\background1.jpg");
+    Image waiting = Toolkit.getDefaultToolkit().createImage("C:\\Users\\kosta\\Dropbox (Amherst College)\\2nd Semester Amherst\\CS112\\FINAL PROJECT\\Newest\\Patch 2\\dominoesfall.gif");
 //-----------------------------------------------------------------KEY BINDINGS----------------------------------------------------------------    
     public class InputMouseEvents extends MouseAdapter{
         public void mousePressed(MouseEvent e) {
@@ -80,7 +79,7 @@ public class drawing extends JPanel implements ActionListener{
     else {
         if(x>50 && x<94 && y>600 && y<694)  toRemove = 0;
         else if (x>130 && x<176 && y>600 && y<694) toRemove = 1; 
-        else if (x>210 && x<256 && y>600 && y<694) toRemove = 2;
+        else if (x>210 && x<256 && y>72 && y<694) toRemove = 2;
         else if (x>290 && x<336 && y>600 && y<694) toRemove = 3;
         else if (x>370 && x<416 && y>600 && y<694) toRemove = 4;
         else if (x>450 && x<496 && y>600 && y<694) toRemove = 5;
@@ -97,84 +96,43 @@ public class drawing extends JPanel implements ActionListener{
         else if (x>1310 && x<1356 && y>600 && y<694) toRemove = 16; 
     }
         }
-        public void mouseReleased(MouseEvent e) {
-            int x = e.getX();
-            int y = e.getY();
-      //First player round      
-    if(!toHide && !game.endTurn(game.userOneHand)) {
-        Dominoes temp = null;
-            if(y > 144 && y < 600 && x < WIDTH/2) {
-                 
-                if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 0) != "nothing") {
-                 temp = game.userOneHand.remove(toRemove);
-                 dominoto.add(temp);
-                 if(temp.isSpecial()) {} 
-                 else if (temp.isSpecial2()) { 
-                     game.userTwoHand.draw(game.GamePile);toHide =true;
-                     }
-                 else {
-                    // hideBoth = true;
-                    // JOptionPane.showMessageDialog(null, "Next Player","Prompt", JOptionPane.ERROR_MESSAGE);
-                //   hideBoth = false;
-                     toHide=true;
-                     }
-                }
-            else if (y > 144 && y < 600 && x > WIDTH/2){
-                if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 1) != "nothing")
-                temp = game.userOneHand.remove(toRemove);
-                dominoto.add(temp);
-                if(temp.isSpecial()) {} 
-                else if (temp.isSpecial2()) { 
-                    game.userTwoHand.draw(game.GamePile);toHide =true;
-                    }
-                else { 
-                    //JOptionPane.showMessageDialog(null, "Next Player","Prompt", JOptionPane.ERROR_MESSAGE);
-                    toHide=true;
-                    }
- 
-            }
-            }
-    }
-    else {
-        toHide = true;
-    }
-    if (toHide && !game.endTurn(game.userTwoHand)){
-        Dominoes temp = null;
-        if (y > 144 && y < 600 && x < WIDTH/2) {
-         if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 0) != "nothing") {
-              temp = game.userTwoHand.remove(toRemove);
-              dominoto.add(temp);
-              if(temp.isSpecial()) {} 
-              else if (temp.isSpecial2()) { game.userOneHand.draw(game.GamePile);toHide = false;}
-              else {
-                // hideBoth = true;
-                // JOptionPane.showMessageDialog(null, "Next Player","Prompt", JOptionPane.ERROR_MESSAGE);
-             //  hideBoth = false;
-                 toHide=false;}
-            }
-        }
-        else if (y > 144 && y < 600 && x > WIDTH/2){
-         if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 1) != "nothing") {
-              temp = game.userTwoHand.remove(toRemove);
-              dominoto.add(temp);
-              if(temp.isSpecial()) {} 
-              else if (temp.isSpecial2()) { 
-                  game.userOneHand.draw(game.GamePile);toHide = false;
-                  }
-              else {
-                // hideBoth = true;
-                // JOptionPane.showMessageDialog(null, "Next Player","Prompt", JOptionPane.ERROR_MESSAGE);
-             //  hideBoth = false;
-                 toHide=false;
+         public void mouseReleased(MouseEvent e) {
+             int x = e.getX();
+             int y = e.getY();
+       //First player round      
+     if(!toHide) {
+  
+             if(x<WIDTH/2) {
+                 if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 0) != "nothing") {
+                  dominoto.add(game.userOneHand.remove(toRemove));
+                  toHide=true;
                  }
- 
-            }
-        }  
-   }
-    else {
-        toHide = false;
+             }
+             else {
+                 if (game.table.addOnTable(game.userOneHand.getDomino(toRemove), 1) != "nothing")
+                  dominoto.add(game.userOneHand.remove(toRemove));
+                 toHide=true;
+  
+  
+             }  
+       }
+     else {
+         if(x<WIDTH/2) {
+          if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 0) != "nothing") {
+                dominoto.add(game.userTwoHand.remove(toRemove));
+                toHide = false;
+  
+             }
+         }
+         else {
+          if (game.table.addOnTable(game.userTwoHand.getDomino(toRemove), 1) != "nothing") {
+              dominoto.add(game.userTwoHand.remove(toRemove));
+              toHide = false;
+  
+             }
+         }  
     }
- }
+  }
         public void mouseDragged(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
@@ -211,7 +169,35 @@ public class drawing extends JPanel implements ActionListener{
     }
          
    }
- 
+//-----------------------------------------------------------------RUNNABLE DRAG/DROP-----------------------------------------------------------------     
+    class Runner implements Runnable{
+        public void run()
+        {
+            while(true){
+            updateDom(1.0 / (double)FPS);
+            repaint();
+            try{
+                Thread.sleep(1000/FPS);
+            }
+            catch(InterruptedException e){}
+            }
+  
+        }
+          
+        }
+    public void updateDom (double time) {
+        if(!toHide) {
+            update(game.userOneHand.dominoes, time);
+        }
+        else {
+            update(game.userTwoHand.dominoes, time);
+        }
+    }
+      
+    public void update (ArrayList<Dominoes> domino, double time) {
+        domino.get(toRemove).x= domino.get(toRemove).x * time;
+        domino.get(toRemove).y = domino.get(toRemove).y * time;
+    }
 //-----------------------------------------------------------------CONSTRUCTOR-----------------------------------------------------------------     
     public drawing() {
         addKeyListener(new InputKeyEvents());
@@ -273,29 +259,7 @@ public class drawing extends JPanel implements ActionListener{
         g.fillRect((int)tabx,(int) taby + 48, (int)tabWidth, 2);
   
         //SMALL GOLD DOT
-        g.setColor(gold);
-        g.fillOval((int)tabx + 21,(int) taby + 46, 5, 5);
-          
-    }
-    public void drawSpecialDom2 (Graphics g, double x, double y) {
-        Graphics2D g2 = (Graphics2D) g;
-        //DRAWING WHITE TAB
-        g2.setPaint(Color.GREEN);
-          
-        g2.setStroke(new BasicStroke(3.0f));
-        g2.fillRoundRect((int)x, (int)y, 46, WIDTH/15 - 2, 10, 10);
-          
-        double tabx = x;
-        double taby = y;
-        double tabWidth = 46;
-        //g2.fillRoundRect(x, y, 100, 200, 20, 20);
-        //DRAWING BLACK STRIP
-        //IF ITS PLAYER 1 DECK
-        g.setColor(Color.BLACK);
-        g.fillRect((int)tabx,(int) taby + 48, (int)tabWidth, 2);
-  
-        //SMALL GOLD DOT
-        g.setColor(gold);
+        g.setColor(Color.GREEN);
         g.fillOval((int)tabx + 21,(int) taby + 46, 5, 5);
           
     }
@@ -320,47 +284,7 @@ public class drawing extends JPanel implements ActionListener{
              g.fillOval(x + (WIDTH/15 - 2)/2 - 3, y + 23, 5, 5);
       
     }
-    public void drawDomSpecialHorizon (Graphics g, int x, int y) {
-           
-        Graphics2D g2 = (Graphics2D) g;
-        //DRAWING WHITE TAB
-        g2.setPaint(Color.YELLOW);
-        g2.setStroke(new BasicStroke(3.0f));
-        int rightX = 0;
-        int rightY = 0;
-        int leftX = 0;
-        int leftY = 0;
-            g2.fillRoundRect(x, y, WIDTH/15 - 2, 46, 10, 10);
-              
-            //DRAWING BLACK STRIP
-            //IF ITS PLAYER 1 DECK
-            g.setColor(Color.BLACK);
-            g.fillRect(x + (WIDTH/15 - 2)/2 - 1, y, 2, 46);
-            //SMALL GOLD DOT
-            g.setColor(gold);
-            g.fillOval(x + (WIDTH/15 - 2)/2 - 3, y + 23, 5, 5);
-     
-   } 
-    public void drawDomSpecialHorizon2 (Graphics g, int x, int y) {
-        Graphics2D g2 = (Graphics2D) g;
-        //DRAWING WHITE TAB
-        g2.setPaint(Color.GREEN);
-        g2.setStroke(new BasicStroke(3.0f));
-        int rightX = 0;
-        int rightY = 0;
-        int leftX = 0;
-        int leftY = 0;
-            g2.fillRoundRect(x, y, WIDTH/15 - 2, 46, 10, 10);
-              
-            //DRAWING BLACK STRIP
-            //IF ITS PLAYER 1 DECK
-            g.setColor(Color.BLACK);
-            g.fillRect(x + (WIDTH/15 - 2)/2 - 1, y, 2, 46);
-            //SMALL GOLD DOT
-            g.setColor(gold);
-            g.fillOval(x + (WIDTH/15 - 2)/2 - 3, y + 23, 5, 5);
-     
-    }
+       
     //DRAWING VERTICAL DOMINO
 public void drawdot(Graphics g, Dominoes domino, double k, double p) {
    //constants for moving onto the next domino
@@ -372,7 +296,7 @@ public void drawdot(Graphics g, Dominoes domino, double k, double p) {
    Graphics2D g2 = (Graphics2D) g;
       
   
-      if(domino.isSpecial()) {drawSpecialDom(g, x, y);} else if(domino.isSpecial2()) {drawSpecialDom2(g, x, y);}
+      if(domino.isSpecial()) {drawSpecialDom(g, x, y);}
       else {  drawDom(g, x, y);}
          
      for(int i = 0; i < 2; i++) { 
@@ -516,7 +440,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
        Graphics2D g2 = (Graphics2D) g;
           
        for (Dominoes current: domino) {
-          if(current.isSpecial()) {drawSpecialDom(g, x, y);} else if(current.isSpecial2()) {drawSpecialDom2(g, x, y);}
+          if(current.isSpecial()) {drawSpecialDom(g, x, y);}
           else {  drawDom(g, x, y);}
              
         switch(current.topside) {
@@ -664,7 +588,6 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
   
            for (Dominoes current: domino) {
                //IF FIRST DOMINO PLACED ON TABLE
-                
                    if (count == 0) {
                        ArrayList<Dominoes> yes = new ArrayList<Dominoes>();
                        yes.add(current);
@@ -680,9 +603,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                    else {
                        //IF DOMINO IS TO THE RIGHT
                        if (current.last == "righttopside" || current.last == "rightbotside") {
-                           if(current.isSpecial()) {drawDomSpecialHorizon(g, nextDomXR, nextDomYR);}
-                           else if(current.isSpecial2()) {drawDomSpecialHorizon2(g, nextDomXR, nextDomYR);}
-                           else { drawDomHorizon(g, nextDomXR, nextDomYR);}
+                           drawDomHorizon(g, nextDomXR, nextDomYR);
                            //IF TOPSIDE IS JUTTING OUT TO THE RIGHT
                            if (current.last == "righttopside") {
                                switch(current.botside) {
@@ -943,9 +864,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
                        }
                        else {
                            //DOMINO IS PLACED ON THE LEFTSIDE
-                           if(current.isSpecial()) {drawDomSpecialHorizon(g, nextDomXL, nextDomYL);}
-                           else if(current.isSpecial2()) {drawDomSpecialHorizon2(g, nextDomXL, nextDomYL);}
-                           else { drawDomHorizon(g, nextDomXL, nextDomYL);}
+                           drawDomHorizon(g, nextDomXL, nextDomYL);
                          //IF TOPSIDE IS JUTTING OUT TO THE LEFT
                            if (current.last == "lefttopside") {
                            switch(current.topside) {
@@ -1219,7 +1138,6 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
            int count = 0;
          
         for(Dominoes current : domino) {
-             
             if(count%7 == 0 && count !=0)  j+=225;
             if(current == null) continue;
  
@@ -1360,7 +1278,7 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
     public void paint(Graphics g) {
   
     int q = 0; int p = 0;
-    g.drawImage(background, 0, 0, null);
+      g.drawImage(background, 0, 0, null);
         
       for(Dominoes current : game.userOneHand.dominoes) {
             current.x = (double)50+q;
@@ -1381,19 +1299,12 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
           g.drawImage(waiting, 0, 0, null);
           g.drawImage(waiting, 500, 0, null);
           g.drawImage(waiting, 950, 0, null);
-      }else if (!toHide){
+      }else {
           g.drawImage(waiting, 0, 600, null);
           g.drawImage(waiting, 500, 600, null);
           g.drawImage(waiting, 950, 600, null);
       }
-//      else if (hideBoth){
-//        g.drawImage(waiting, 0, 0, null);
-//          g.drawImage(waiting, 500, 0, null);
-//          g.drawImage(waiting, 950, 0, null);
-//          g.drawImage(waiting, 0, 600, null);
-//          g.drawImage(waiting, 500, 600, null);
-//          g.drawImage(waiting, 950, 600, null);
-//      }
+     
       repaint();
       if(toDrag == 0) {
         drawHighlight(g, 0);
@@ -1402,22 +1313,19 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
         drawHighlight(g, 1);
         toDrag = -1;
     }
-//      //ROUND ENDING
-//      if (game.GamePile.size() == 0 && torun) {
-//        if(game.endTurn(game.userOneHand)) {
-//            toHide = true;
-//          } else if (game.endTurn(game.userTwoHand)){
-//            toHide = false;
-//          }
-//          
-//      }
-       
-       
       //ROUND ENDING
-//      if(game.roundEnded()) {
-//       frame.dispose();
-//       run();
-//      }
+      if (game.GamePile.size() == 0 && torun) {
+          if(game.endTurn(game.userOneHand)) {
+              toHide = true;
+          } else if (game.endTurn(game.userTwoHand)){
+              toHide = false;
+          }
+           
+      }
+       
+      //JOptionPane.showMessageDialog(null, "Next Player","Prompt", JOptionPane.ERROR_MESSAGE);
+      //ROUND ENDING
+      if(game.roundEnded() && torun) run();
        
     }
       
@@ -1427,6 +1335,8 @@ public void drawdotTable(Graphics g, ArrayList<Dominoes> domino, int x, int y) {
       JFrame frame = new JFrame();
       drawing instance = new drawing();
       torun = true;
+     // JScrollPane scroll = new JScrollPane(instance, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    //  frame.add(scroll);
       frame.getContentPane().add(instance);
       frame.setBounds(250, 100, WIDTH, HEIGHT);
       frame.setVisible(true);
