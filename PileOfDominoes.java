@@ -1,90 +1,85 @@
 import java.util.ArrayList;
 import java.util.Random;
- 
+
 public class PileOfDominoes {
-     
-public ArrayList<Dominoes> dominoes;
-int [] badArray = {0, 1, 8, 2, 9, 16, 3, 10, 17, 24, 4, 11, 18, 25, 32, 5, 12, 19, 26, 33, 40, 6, 13, 20, 27, 34, 41, 48};
- 
-public PileOfDominoes() {
-    this.dominoes = new ArrayList<Dominoes>();
-}
- 
-public void createPile() {
-    //Generate Dominoes
-    int toDelete = 0;
-    for(Tile topside: Tile.values()) {
-        for(Tile botside: Tile.values()) {
- 
-    if (this.check(toDelete)) {
-        this.dominoes.add(new Dominoes(topside, botside));
-        toDelete++;     
-    }       
-    else{
-        toDelete++;
-        continue;
+	
+    public ArrayList<Dominoes> dominoes;
+    int [] badArray = {0, 1, 8, 2, 9, 16, 3, 10, 17, 24, 4, 11, 18, 25, 32, 5, 12, 19, 26, 33, 40, 6, 13, 20, 27, 34, 41, 48};
+
+    public PileOfDominoes() {
+	this.dominoes = new ArrayList<Dominoes>();
     }
-            }
-         
-        }
+
+    public void createPile() {
+	//Generate Dominoes
+	int toDelete = 0;
+	for(Tile topside: Tile.values()) {
+	    for(Tile botside: Tile.values()) {
+
+		if (this.check(toDelete)) {
+		    this.dominoes.add(new Dominoes(topside, botside));
+		    toDelete++;		
+		}		
+		else{
+		    toDelete++;
+		    continue;
+		}
+	    }
+		
+	}
     }
- 
+
     public String toString() {
-         
-        String toPrint = "";
- 
-        for(Dominoes current : this.dominoes) {
-            toPrint += current.toString();
-        }
-    return toPrint;
-     
-}
- 
-//SHUFFLE DOMINOES
+		
+	String toPrint = "";
+
+	for(Dominoes current : this.dominoes) {
+	    toPrint += current.toString();
+	}
+	return toPrint;
+	
+    }
     public void Shuffle () {
-        Random rand = new Random();
-        ArrayList<Dominoes> tempPile = new ArrayList<Dominoes>();
-        int size = dominoes.size();
-     //RANDOMLY SELECTING SPECIAL DOMINOES
-     //SKIP DOMINO; SELECTS A RANDOM DOMINO AND MAKES IT A SPECIAL SKIP DOMINO
-        for(int n = 0; n < 2; n++) {
-            int randomIndex = (int)(Math.random() * 27);
-              Dominoes temp = this.dominoes.get(randomIndex);
-              temp.makeSpecialSkip();
-              this.dominoes.set(randomIndex, temp);
-        }
-     //DRAW ONE DOMINO; SELECTS A RANDOM DOMINO AND MAKES IT A SPECIAL DRAW DOMINO
-        for(int n = 0; n < 1; n++) {
-        	int randomIndex = (int)(Math.random() * 27);
-        	Dominoes temp = this.dominoes.get(randomIndex);
-        	temp.makeSpecialDraw();
-        	this.dominoes.set(randomIndex, temp);
-        }
-     //DOMINOES ARE SHUFFLED
-        for (int i = 0; i < size; i++) {
-             int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
-     
-             tempPile.add(this.dominoes.remove(randomindex));
-             
-        }
-         
-        this.dominoes = tempPile;
+	Random rand = new Random();
+	ArrayList<Dominoes> tempPile = new ArrayList<Dominoes>();
+	int size = dominoes.size();
+	for(int n = 0; n < 1; n++) {
+	    int randomIndex = (int)(Math.random() * 27);
+	    Dominoes temp = this.dominoes.get(randomIndex);
+	    temp.makeSpecial();
+	    this.dominoes.set(randomIndex, temp);
+	}
+	for(int n = 0; n < 1; n++) {
+	    int randomIndex = (int)(Math.random() * 27);
+	    Dominoes temp = this.dominoes.get(randomIndex);
+	    temp.makeSpecial2();
+	    this.dominoes.set(randomIndex, temp);
+	}
+	for (int i = 0; i < size; i++) {
+	    int randomindex = rand.nextInt((this.dominoes.size() - 1 - 0) + 1) + 0;
+	
+	    tempPile.add(this.dominoes.remove(randomindex));
+			
+	}
+		
+		
+	this.dominoes = tempPile;
     }
-     
+	
     public boolean check (int value) {
-        boolean toReturn = false;
-        for (int i = 0; i < badArray.length; i++) {
-             
-            if(value == badArray[i]) {
-                return toReturn=true;
-            }
-        }
-         
-        return toReturn;
+	boolean toReturn = false;
+	for (int i = 0; i < badArray.length; i++) {
+			
+	    if(value == badArray[i]) {
+		return toReturn=true;
+	    }
+	}
+		
+	return toReturn;
     }
-     
+	
     public void draw (PileOfDominoes actualPile) {
-        this.dominoes.add(actualPile.dominoes.remove(0)); 
+	this.dominoes.add(actualPile.dominoes.remove(0)); 
     }
     //This method will be used at the end of each round.
     //It's function is to add up the value of the dominoes that each player has
@@ -93,45 +88,46 @@ public void createPile() {
     //has reached, let's say, 100 points...that player would then be removed from the game
     //and the remaining players would play till there is only one left.
     public int valueOfPile () {
-            int totalValue = 0;
- 
-            //For every domino in the pile
-            for(Dominoes domino : this.dominoes){
-                //Switch of possible values
-                switch(domino.botside){
-                case ZERO: totalValue += 0; break;
-                case ONE: totalValue += 1; break;
-                case TWO: totalValue += 2; break;
-                case THREE: totalValue += 3; break;
-                case FOUR: totalValue += 4; break;
-                case FIVE: totalValue += 5; break;
-                case SIX: totalValue += 6; break;
-                 
-                }   
-                switch(domino.topside){
-                case ZERO: totalValue += 0; break;
-                case ONE: totalValue += 1; break;
-                case TWO: totalValue += 2; break;
-                case THREE: totalValue += 3; break;
-                case FOUR: totalValue += 4; break;
-                case FIVE: totalValue += 5; break;
-                case SIX: totalValue += 6; break;
-                 
-                }   
-            }
-            return totalValue;
+	int totalValue = 0;
+
+	//For every domino in the pile
+	for(Dominoes domino : this.dominoes){
+	    //Switch of possible values
+	    switch(domino.botside){
+	    case ZERO: totalValue += 0; break;
+	    case ONE: totalValue += 1; break;
+	    case TWO: totalValue += 2; break;
+	    case THREE: totalValue += 3; break;
+	    case FOUR: totalValue += 4; break;
+	    case FIVE: totalValue += 5; break;
+	    case SIX: totalValue += 6; break;
+				
+	    }	
+	    switch(domino.topside){
+	    case ZERO: totalValue += 0; break;
+	    case ONE: totalValue += 1; break;
+	    case TWO: totalValue += 2; break;
+	    case THREE: totalValue += 3; break;
+	    case FOUR: totalValue += 4; break;
+	    case FIVE: totalValue += 5; break;
+	    case SIX: totalValue += 6; break;
+				
+	    }	
+	}
+	return totalValue;
     }
- //REMOVE DOMINOES METHOD
     public Dominoes remove (int p) {
- 
-        return this.dominoes.remove(p);
+
+	return this.dominoes.remove(p);
     }
- //RETURN SIZE METHOD
     public int size() {
-        return dominoes.size();
+	return dominoes.size();
     }
-       public Dominoes getDomino (int i) {
-            return dominoes.get(i);
+    public Dominoes getDomino (int i) {
+	if(i < this.dominoes.size()) {
+	    return dominoes.get(i);
+	}
+	return null;
     }
-     
+	
 }
