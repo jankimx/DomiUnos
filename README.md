@@ -2,7 +2,7 @@
 
 Compile: javac *.java
 
-Run: game.java
+Run: window.java
 
 Use:
 DomiUnos Rules:
